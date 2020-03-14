@@ -421,8 +421,12 @@ class Connection extends LDAPUtility {
 			(string)$this->configPrefix .'): ';
 
 		//options that shall not be empty
-		$options = array('ldapHost', 'ldapPort', 'ldapUserDisplayName',
-						 'ldapGroupDisplayName', 'ldapLoginFilter');
+		$options = array('ldapHost', 'ldapUserDisplayName','ldapGroupDisplayName', 
+			'ldapLoginFilter');
+
+		if(substr($this->configuration->ldapHost, 0, strlen('ldapi://')) != 'ldapi://')
+			array_push($options, 'ldapPort');
+
 		foreach($options as $key) {
 			$val = $this->configuration->$key;
 			if(empty($val)) {
